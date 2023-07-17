@@ -41,7 +41,7 @@ public interface CustomerMapper {
      * @param params - params
      * @return Customer
      */
-    Customer getCustomerById(@Param("id") Long params);
+    Customer getCustomerById(@Param("params") Map params);
     /* @@_END: MEMBERS ----------------------------------------------*/
 
     /* @@_BEGIN: PROPERTIES -----------------------------------------*/

@@ -73,9 +73,10 @@ public class CustomerDaoImpl implements CustomerDao {
      */
     @Override
     public Customer getCustomer(Long id) {
+        LOGGER.debug("retrieving data from database");
         Map<String, Object> params = new HashMap<>();
         params.put("id", id);
-        return customerMapper.getCustomerById(id);
+        return customerMapper.getCustomerById(params);
     }
     /* @@_END: METHODS ----------------------------------------------*/
 

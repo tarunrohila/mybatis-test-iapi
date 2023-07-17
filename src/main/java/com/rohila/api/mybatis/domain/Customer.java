@@ -49,7 +49,6 @@ public class Customer {
     /* @@_BEGIN: MEMBERS --------------------------------------------*/
     private Long id;
     private String name;
-
     private String active;
     /* @@_END: MEMBERS ----------------------------------------------*/
 

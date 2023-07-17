@@ -1,3 +1,11 @@
+logging:
+  level:
+    root: ERROR
+    com:
+      rohila:
+        api:
+          mybatis: DEBUG
+
 app:
   mybatis:
     sqlDialect: postgresql

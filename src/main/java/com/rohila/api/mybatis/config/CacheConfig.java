@@ -10,17 +10,16 @@
  * required to sign a confidentiality undertaking in favour of Tech Rohila
  */
 
-package com.rohila.api.mybatis.service.impl;
+package com.rohila.api.mybatis.config;
 /* @@_BEGIN: IMPORTS ---------------------------------------------*/
 
-import com.rohila.api.mybatis.dao.CustomerDao;
-import com.rohila.api.mybatis.domain.Customer;
-import com.rohila.api.mybatis.service.CustomerService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Service;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 /* @@_END: IMPORTS -----------------------------------------------*/
 
 /* @@_BEGIN: CLASS DEFINITION ------------------------------------*/
@@ -30,26 +29,27 @@ import org.springframework.stereotype.Service;
  *
  * @author Tarun Rohila
  * @version 1.0
- * @since 17-07-2023 18:06
+ * @since 17-07-2023 20:52
  */
-@Service
-public class CustomerServiceImpl implements CustomerService {
+@Configuration
+//@EnableCaching
+public class CacheConfig {
 
     /* @@_BEGIN: LOGGING --------------------------------------------*/
     /**
      * Logger declaration
      */
-    private static final Logger LOGGER = LogManager.getLogger(CustomerServiceImpl.class);
-
-
+    private static final Logger LOGGER = LogManager.getLogger(CacheConfig.class);
     /* @@_END: LOGGING ----------------------------------------------*/
 
     /* @@_BEGIN: STATIC ---------------------------------------------*/
     /* @@_END: STATIC -----------------------------------------------*/
 
     /* @@_BEGIN: MEMBERS --------------------------------------------*/
-    @Autowired
-    private CustomerDao customerDao;
+    @Bean
+    public CacheManager cacheManager() {
+        return new ConcurrentMapCacheManager("getCustomer");
+    }
     /* @@_END: MEMBERS ----------------------------------------------*/
 
     /* @@_BEGIN: CONSTRUCTION ---------------------------------------*/
@@ -59,15 +59,6 @@ public class CustomerServiceImpl implements CustomerService {
     /* @@_END: PROPERTIES -------------------------------------------*/
 
     /* @@_BEGIN: METHODS --------------------------------------------*/
-    /**
-     * @param id
-     * @return
-     */
-    @Override
-//    @Cacheable(cacheNames = "getCustomer")
-    public Customer getCustomer(Long id) {
-        return customerDao.getCustomer(id);
-    }
     /* @@_END: METHODS ----------------------------------------------*/
 
     /* @@_BEGIN: GETTERS --------------------------------------------*/
@@ -75,5 +66,5 @@ public class CustomerServiceImpl implements CustomerService {
 
     /* @@_BEGIN: SETTERS --------------------------------------------*/
     /* @@_END: SETTERS ----------------------------------------------*/
-} // CustomerService
+} // CacheConfig
 /* @@_END: CLASS DEFINITION --------------------------------------*/
