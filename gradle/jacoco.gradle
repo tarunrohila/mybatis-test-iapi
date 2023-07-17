@@ -1,0 +1,48 @@
+test {
+    jacoco {
+        destinationFile = layout.buildDirectory.file('jacoco/jacocoTest.exec').get().asFile
+        classDumpDir = layout.buildDirectory.dir('jacoco/classpathdumps').get().asFile
+        excludes = ['**/com/rohila/api/*/config/**',
+                    '**/com/rohila/api/*/constant/**']
+    }
+    finalizedBy jacocoTestReport
+}
+
+if (project.hasProperty("coverage_minimum_rate")) {
+    ext.coverage_minimum_rate_value = (new BigDecimal(project.property("coverage_minimum_rate_value")))/100
+} else {
+    ext.coverage_minimum_rate_value = 0.95
+}
+
+jacoco {
+    toolVersion = '0.8.8'
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        html.destination file("${buildDir}/jacocoHtml")
+    }
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir:it, exclude: ['**/com/rohila/api/*/config/**',
+                                       '**/com/rohila/api/*/constant/**'])
+        }))
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        afterEvaluate {
+            classDirectories.setFrom(files(classDirectories.files.collect {
+                fileTree(dir:it, exclude: ['**/com/rohila/api/*/config/**',
+                                           '**/com/rohila/api/*/constant/**'])
+            }))
+        }
+        rule {
+            limit {
+                minimum = coverage_minimum_rate_value
+            }
+        }
+    }
+}

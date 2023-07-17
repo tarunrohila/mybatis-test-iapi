@@ -1,0 +1,12 @@
+app:
+  mybatis:
+    sqlDialect: postgresql
+    config: classpath:/sql/mybatis-${app.mybatis.sqlDialect}.config
+    configProperties:
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/test?currentSchema=public
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver

@@ -1,0 +1,20 @@
+check {
+    dependsOn checkstyleMain
+    dependsOn checkstyleTest
+    dependsOn jacocoTestCoverageVerification
+}
+
+checkstyle {
+    configFile = project.file("config/checkstyle/checkstyle.xml")
+    configProperties = [
+            "checkstyle.suppressions.file": project.file("config/checkstyle/suppressions.xml"),
+            "checkstyle.header.file"      : project.file("config/license/HEADER_JAVA")
+    ]
+    toolVersion = '10.3.3'
+}
+
+tasks.withType(Checkstyle) {
+    reports {
+        html.required = true
+    }
+}

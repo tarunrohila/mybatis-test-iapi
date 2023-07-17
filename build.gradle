@@ -1,0 +1,38 @@
+plugins {
+	id 'java-library'
+	id 'idea'
+	id 'eclipse'
+	id 'maven-publish'
+	id 'jacoco'
+	id 'checkstyle'
+	id 'pmd'
+	id 'org.springframework.boot' version '3.1.1'
+	id 'io.spring.dependency-management' version '1.1.0'
+	id 'com.github.spotbugs' version '5.0.14'
+}
+
+apply from: "${rootDir}/gradle/ext.gradle"
+apply from: "${rootDir}/gradle/repositories.gradle"
+apply from: "${rootDir}/gradle/dependencies.gradle"
+apply from: "${rootDir}/gradle/checkstyle.gradle"
+apply from: "${rootDir}/gradle/jacoco.gradle"
+apply from: "${rootDir}/gradle/publish.gradle"
+
+group = GROUP_ID
+version = VERSION
+
+java {
+	sourceCompatibility = '17'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+
